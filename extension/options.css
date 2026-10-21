@@ -1,0 +1,51 @@
+body { font-size: 14px; }
+.pagina { max-width: 760px; margin: 0 auto; padding: 28px 16px 48px; }
+header { display: flex; gap: 12px; align-items: center; margin-bottom: 20px; }
+h1 { font-size: 22px; margin: 0; }
+h2 { font-size: 16px; margin: 0 0 12px; }
+.sub { color: var(--muted); margin: 0; }
+.panel { background: #000; border: 1px solid var(--line); padding: 18px; margin-bottom: 16px; }
+.campo { display: grid; gap: 4px; margin-bottom: 12px; font-weight: 600; font-size: 13px; }
+.campo input, .campo select { font-weight: 400; padding: 8px 10px; border: 1px solid var(--line); background: var(--soft); width: 100%; }
+.campo input:focus, .campo select:focus { outline: 2px solid var(--accent); outline-offset: -1px; }
+.campo.corto { max-width: 220px; margin-top: 12px; }
+.con-boton { display: flex; gap: 8px; }
+.con-sufijo { display: flex; gap: 6px; align-items: center; font-weight: 400; }
+.con-sufijo input { width: 90px; }
+.acciones { display: flex; flex-wrap: wrap; gap: 10px; align-items: center; margin-top: 12px; }
+.estado { font-size: 13px; }
+.estado.ok { color: var(--ok); }
+.estado.mal { color: var(--err); }
+.nota { color: var(--muted); font-size: 12.5px; margin: 10px 0 0; }
+.nota.sin-margen { margin-top: 0; }
+.opcion { display: flex; gap: 8px; align-items: center; cursor: pointer; margin-top: 8px; }
+
+.modos { display: grid; gap: 8px; }
+.modo { display: flex; gap: 10px; align-items: flex-start; padding: 10px 12px; border: 1px solid var(--line); cursor: pointer; }
+.modo:has(input:checked) { border-color: var(--text); }
+.modo input { margin-top: 3px; }
+.modo span { display: grid; gap: 1px; color: var(--muted); font-size: 13px; }
+.modo strong { color: var(--text); font-size: 14px; }
+.fila-campos { display: grid; grid-template-columns: 1fr 1fr; gap: 12px; margin-top: 14px; }
+@media (max-width: 520px) { .fila-campos { grid-template-columns: 1fr; } }
+.oculto { display: none !important; }
+
+.alerta-bloqueo { margin-top: 12px; padding: 10px 12px; border: 1px solid var(--err); color: var(--err); font-size: 13px; display: grid; gap: 8px; justify-items: start; }
+
+.rapidas { margin: 10px 0 0; }
+.matriz { overflow-x: auto; margin-top: 12px; }
+.matriz table { border-collapse: collapse; width: 100%; font-size: 13px; }
+.matriz th, .matriz td { padding: 8px 6px; border-bottom: 1px solid var(--line); text-align: center; }
+.matriz th:first-child, .matriz td:first-child { text-align: left; }
+.matriz thead th { color: var(--muted); font-weight: 600; font-size: 12px; vertical-align: bottom; }
+.matriz thead th.critico { color: var(--err); }
+.matriz input { width: 16px; height: 16px; cursor: pointer; accent-color: var(--accent); }
+
+.impresora { border-top: 1px solid var(--line); padding: 12px 0 4px; }
+.impresora:first-of-type { border-top: 0; }
+.impresora h3 { font-size: 14px; margin: 0 0 6px; display: flex; gap: 8px; align-items: center; }
+.bandeja { display: flex; align-items: center; gap: 10px; padding: 6px 0; }
+.bandeja .nom { flex: 1; }
+.tag { font-size: 11px; padding: 0 6px; border: 1px solid var(--line); color: var(--muted); margin-left: 6px; }
+.cap { color: var(--muted); font-size: 12px; }
+#bandejas { margin-top: 12px; }

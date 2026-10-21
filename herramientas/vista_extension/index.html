@@ -1,0 +1,56 @@
+<!doctype html>
+<html lang="es">
+<head>
+<meta charset="utf-8">
+<title>Vista previa de la extensión</title>
+<style>
+  body { margin: 0; font: 13px system-ui, sans-serif; background: #d9dde3; color: #1b1f24; }
+  .barra { display: flex; gap: 8px; align-items: center; padding: 10px 14px; background: #fff; border-bottom: 1px solid #ccd; flex-wrap: wrap; }
+  .barra button { padding: 4px 10px; border-radius: 6px; border: 1px solid #aab; background: #f6f7f9; cursor: pointer; }
+  .zona { display: flex; gap: 24px; padding: 20px; align-items: flex-start; flex-wrap: wrap; }
+  iframe { border: 1px solid #333; background: #000; }
+  #popup { width: 380px; height: 640px; }
+  #opciones { width: 760px; height: 900px; }
+  #log { font-family: monospace; color: #555; }
+</style>
+</head>
+<body>
+<div class="barra">
+  <strong>Vista previa (simulador)</strong>
+  <span>Escenario:</span>
+  <select id="imp"><option>canon</option><option>ricoh</option><option>konica</option></select>
+  <select id="esc">
+    <option>normal</option><option>ocupada</option><option>calentando</option><option>atasco</option>
+    <option>tapa_abierta</option><option>sin_papel</option><option>papel_bajo</option>
+    <option>bandeja_abierta</option><option>detenida</option><option>fuera_de_linea</option>
+  </select>
+  <button id="aplicar">Aplicar</button>
+  <button id="config">Configurar demo</button>
+  <span id="log"></span>
+</div>
+<div class="zona">
+  <iframe id="popup" title="popup"></iframe>
+  <iframe id="opciones" title="opciones"></iframe>
+</div>
+<script>
+// Carga popup.html / options.html dentro de un iframe con el stub de chrome.* antes que sus scripts
+async function montar(id, pagina) {
+  let html = await (await fetch(`/extension/${pagina}?t=${Date.now()}`)).text();
+  html = html.replace("<head>", `<head><base href="/extension/"><script src="/herramientas/vista_extension/chrome-stub.js"><\/script>`);
+  document.getElementById(id).srcdoc = html;
+}
+document.getElementById("config").onclick = () => {
+  localStorage.setItem("stub:local", JSON.stringify({ config: { servidor: "http://127.0.0.1:8788", token: "token-demo-simulada-0000" } }));
+  montar("popup", "popup.html"); montar("opciones", "options.html");
+};
+document.getElementById("aplicar").onclick = async () => {
+  const imp = document.getElementById("imp").value, esc = document.getElementById("esc").value;
+  // El control del simulador no envía CORS: basta con disparar la petición
+  await fetch(`http://127.0.0.1:16100/escenario?impresora=${imp}&nombre=${esc}`, { mode: "no-cors" });
+  document.getElementById("log").textContent = `${imp} → ${esc}`;
+};
+addEventListener("message", (e) => { if (e.data?.tipo === "stub") document.getElementById("log").textContent = e.data.texto; });
+montar("popup", "popup.html"); montar("opciones", "options.html");
+</script>
+</body>
+</html>

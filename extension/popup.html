@@ -1,0 +1,24 @@
+<!doctype html>
+<html lang="es">
+<head>
+<meta charset="utf-8">
+<title>Monitor de impresoras</title>
+<link rel="stylesheet" href="estilos.css">
+<link rel="stylesheet" href="popup.css">
+</head>
+<body>
+  <header class="cabecera">
+    <div>
+      <h1>Impresoras</h1>
+      <div class="sub" id="sub">Cargando…</div>
+    </div>
+    <button class="icono" id="ajustes" title="Configuración" aria-label="Configuración">
+      <svg viewBox="0 0 24 24" width="18" height="18" aria-hidden="true" fill="none" stroke="currentColor" stroke-width="2">
+        <path d="M3 7h10M19 7h2M3 17h2M11 17h10"/><rect x="13" y="4.5" width="5" height="5"/><rect x="5" y="14.5" width="5" height="5"/>
+      </svg>
+    </button>
+  </header>
+  <main id="contenido"></main>
+  <script type="module" src="popup.js"></script>
+</body>
+</html>

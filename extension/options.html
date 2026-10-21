@@ -1,0 +1,121 @@
+<!doctype html>
+<html lang="es">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Configuración — Monitor de impresoras</title>
+<link rel="stylesheet" href="estilos.css">
+<link rel="stylesheet" href="options.css">
+</head>
+<body>
+<div class="pagina">
+  <header>
+    <img src="icons/48.png" width="40" height="40" alt="">
+    <div><h1>Monitor de impresoras</h1><p class="sub">Configuración de la extensión</p></div>
+  </header>
+
+  <section class="panel">
+    <h2>Servidor de monitoreo</h2>
+    <form id="form-servidor" autocomplete="off">
+      <label class="campo">URL del servidor
+        <input id="servidor" type="url" placeholder="http://10.0.101.51:8787" required>
+      </label>
+      <label class="campo">Token de acceso
+        <span class="con-boton">
+          <input id="token" type="password" placeholder="El valor de API_TOKEN del servidor" required>
+          <button type="button" class="boton" id="ver-token">Mostrar</button>
+        </span>
+      </label>
+      <div class="acciones">
+        <button class="boton primario" type="submit">Guardar y probar conexión</button>
+        <span class="estado" id="estado-servidor" role="status"></span>
+      </div>
+      <p class="nota">Al guardar, Chrome pedirá permiso para acceder solo a esa dirección.</p>
+    </form>
+  </section>
+
+  <section class="panel">
+    <h2>Cómo avisar</h2>
+    <div class="modos" role="radiogroup" aria-label="Forma de aviso">
+      <label class="modo"><input type="radio" name="modo" value="flotante">
+        <span><strong>Aviso flotante sobre la página</strong> Aparece encima de la web que estés viendo, al instante.</span></label>
+      <label class="modo"><input type="radio" name="modo" value="sistema">
+        <span><strong>Notificación de Windows</strong> La del sistema; se ve aunque Chrome esté minimizado.</span></label>
+      <label class="modo"><input type="radio" name="modo" value="ambos">
+        <span><strong>Ambos</strong> Aviso flotante y notificación de Windows.</span></label>
+    </div>
+
+    <div class="alerta-bloqueo" id="falta-permiso" hidden>
+      <span>Para mostrar avisos sobre las páginas, Chrome necesita permiso para todos los sitios. La extensión solo
+        dibuja el aviso; no lee ni modifica el contenido de las páginas.</span>
+      <button class="boton primario" id="dar-permiso">Permitir avisos en las páginas</button>
+    </div>
+
+    <div class="fila-campos" id="opciones-flotante">
+      <label class="campo">Posición
+        <select id="posicion">
+          <option value="arriba-derecha">Arriba a la derecha</option>
+          <option value="abajo-derecha">Abajo a la derecha</option>
+          <option value="abajo-izquierda">Abajo a la izquierda</option>
+        </select>
+      </label>
+      <label class="campo">Duración de avisos leves
+        <select id="duracion">
+          <option value="5">5 segundos</option>
+          <option value="10">10 segundos</option>
+          <option value="20">20 segundos</option>
+          <option value="60">1 minuto</option>
+          <option value="0">Hasta que lo cierre</option>
+        </select>
+      </label>
+    </div>
+    <label class="opcion" id="fila-enfocado"><input type="checkbox" id="enfocado">
+      Si Chrome no está en primer plano, avisar también con una notificación de Windows</label>
+    <p class="nota">Los avisos críticos (atasco, tapa abierta, error, sin red) quedan en pantalla hasta que los cierres.
+      En páginas internas de Chrome (pestaña nueva, chrome://, Web Store) no se puede dibujar el aviso flotante:
+      ahí se usa la notificación de Windows.</p>
+
+    <div class="acciones">
+      <button class="boton" id="probar-flotante">Ver aviso flotante de ejemplo</button>
+      <button class="boton" id="probar-sistema">Probar notificación de Windows</button>
+      <span class="estado" id="estado-modo" role="status"></span>
+    </div>
+    <div class="alerta-bloqueo" id="bloqueo" hidden>
+      <strong>Chrome tiene bloqueadas las notificaciones de Windows de esta extensión.</strong>
+      Para reactivarlas, en chrome://extensions quita la extensión y vuelve a cargarla.
+    </div>
+  </section>
+
+  <section class="panel">
+    <h2>Qué avisos recibir</h2>
+    <p class="nota sin-margen">Marca qué problemas quieres que te avisen de cada impresora. Esta elección es solo tuya
+      (se guarda en este navegador).</p>
+    <div class="acciones rapidas">
+      <button class="boton" data-preset="todo">Todos</button>
+      <button class="boton" data-preset="criticos">Solo críticos</button>
+      <button class="boton" data-preset="nada">Ninguno</button>
+    </div>
+    <div id="matriz" class="matriz"><p class="vacio">Configura el servidor para ver las impresoras.</p></div>
+    <label class="opcion"><input type="checkbox" id="servidor-caido"> Avisar si el servidor de monitoreo no responde</label>
+    <label class="opcion"><input type="checkbox" id="resolucion"> Avisar también cuando un problema se resuelve</label>
+    <label class="campo corto">Umbral de papel bajo
+      <span class="con-sufijo"><input id="umbral" type="number" min="1" max="90" step="1"> %</span>
+    </label>
+    <div class="acciones">
+      <button class="boton" id="reavisar">Volver a avisar los problemas actuales</button>
+      <span class="estado" id="estado-alertas" role="status"></span>
+    </div>
+  </section>
+
+  <section class="panel">
+    <h2>Bandejas</h2>
+    <p class="nota sin-margen">Desactiva las bandejas que no se usan para que no generen avisos. Esta configuración se guarda
+      en el servidor y es <strong>compartida por todos los usuarios</strong>. Las bandejas manuales (bypass) vienen
+      desactivadas.</p>
+    <div id="bandejas"><p class="vacio">Configura el servidor para ver las bandejas.</p></div>
+  </section>
+</div>
+<script src="toast.js"></script>
+<script type="module" src="options.js"></script>
+</body>
+</html>

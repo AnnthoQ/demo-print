@@ -1,0 +1,39 @@
+body { width: 380px; min-height: 120px; }
+.cabecera { display: flex; justify-content: space-between; align-items: center; padding: 12px 14px 10px; border-bottom: 1px solid var(--line); }
+h1 { font-size: 15px; margin: 0; }
+.sub { color: var(--muted); font-size: 11.5px; }
+.icono { border: 1px solid transparent; background: none; color: var(--muted); padding: 5px; cursor: pointer; display: grid; }
+.icono:hover { border-color: var(--line); color: var(--text); }
+main { display: grid; grid-template-columns: minmax(0, 1fr); }
+
+.tarjeta { padding: 12px 14px; border-bottom: 1px solid var(--line); border-left: 3px solid var(--off); }
+.tarjeta.disponible { border-left-color: var(--ok); }
+.tarjeta.ocupada { border-left-color: var(--busy); }
+.tarjeta.calentando { border-left-color: var(--warm); }
+.tarjeta.error { border-left-color: var(--err); }
+.fila { display: flex; justify-content: space-between; align-items: center; gap: 8px; }
+.nombre { font-weight: 700; font-size: 14px; }
+.modelo { color: var(--muted); font-size: 11px; margin-top: 1px; overflow: hidden; text-overflow: ellipsis; white-space: nowrap; }
+
+.atasco { margin-top: 8px; padding: 7px 10px; background: var(--err); color: #000; font-weight: 800; letter-spacing: .03em; }
+.motivo { margin-top: 6px; color: var(--err); font-weight: 600; font-size: 12px; }
+.offline { margin-top: 6px; color: var(--off); font-size: 12px; }
+.avisos { display: flex; flex-wrap: wrap; gap: 4px; margin-top: 6px; }
+.aviso { font-size: 11px; padding: 0 6px; border: 1px solid var(--warm); color: var(--warm); }
+
+.bandeja { margin-top: 8px; }
+.bandeja .fila { font-size: 12px; }
+.bandeja .nom { font-weight: 600; }
+.tag { font-size: 10.5px; padding: 0 4px; border: 1px solid var(--line); color: var(--muted); margin-left: 4px; font-weight: 500; }
+.valor { font-variant-numeric: tabular-nums; font-weight: 600; }
+.valor.bajo, .valor.vacia { color: var(--err); }
+.valor.abierta { color: var(--warm); }
+.barra { height: 6px; background: var(--track); overflow: hidden; margin-top: 3px; }
+.relleno { height: 100%; background: var(--ok); }
+.relleno.medio { background: var(--warm); }
+.relleno.bajo { background: var(--err); }
+
+.mensaje { margin: 12px 14px; border: 1px solid var(--line); padding: 16px; text-align: center; display: grid; gap: 10px; justify-items: center; }
+.mensaje.error { border-color: var(--err); }
+.mensaje strong { font-size: 14px; }
+.pie { color: var(--muted); font-size: 11px; text-align: center; padding: 8px 0 10px; }
