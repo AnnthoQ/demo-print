@@ -1,0 +1,5 @@
+[
+  { "id": "canon",  "name": "Canon",          "brand": "canon",  "ip": "10.0.101.200", "snmpVersion": "1",  "community": "env:SNMP_COMMUNITY_CANON" },
+  { "id": "ricoh",  "name": "Ricoh",          "brand": "ricoh",  "ip": "10.0.101.57",  "snmpVersion": "2c", "community": "env:SNMP_COMMUNITY_RICOH" },
+  { "id": "konica", "name": "Konica Minolta", "brand": "konica", "ip": "10.0.101.100", "snmpVersion": "2c", "community": "env:SNMP_COMMUNITY_KONICA" }
+]
