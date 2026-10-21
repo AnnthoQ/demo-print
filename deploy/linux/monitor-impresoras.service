@@ -1,0 +1,25 @@
+# Servicio systemd. Instalar:
+#   sudo cp deploy/linux/monitor-impresoras.service /etc/systemd/system/
+#   (ajusta WorkingDirectory y User)
+#   sudo systemctl daemon-reload && sudo systemctl enable --now monitor-impresoras
+#   journalctl -u monitor-impresoras -f
+[Unit]
+Description=Monitor de impresoras (SNMP solo lectura + API para la extension de Chrome)
+After=network-online.target
+Wants=network-online.target
+
+[Service]
+Type=simple
+User=monitor
+WorkingDirectory=/opt/monitor-impresoras
+Environment=PYTHONIOENCODING=utf-8
+ExecStart=/usr/bin/python3 server/servidor.py
+Restart=on-failure
+RestartSec=5
+NoNewPrivileges=true
+ProtectSystem=strict
+ReadWritePaths=/opt/monitor-impresoras/config
+PrivateTmp=true
+
+[Install]
+WantedBy=multi-user.target
