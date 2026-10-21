@@ -1,0 +1,5 @@
+[
+  { "id": "canon",  "marca": "canon",  "name": "Canon",          "ip": "<IP_CANON>",  "community": "public", "snmpVersion": ["1", "2c"] },
+  { "id": "ricoh",  "marca": "ricoh",  "name": "Ricoh",          "ip": "<IP_RICOH>",  "community": "public", "snmpVersion": ["2c", "1"] },
+  { "id": "konica", "marca": "konica", "name": "Konica Minolta", "ip": "<IP_KONICA>", "community": "public", "snmpVersion": ["2c", "1"] }
+]

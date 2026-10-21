@@ -1,0 +1,7 @@
+# ipp://10.0.101.200:631/ipp/print -> ConnectionRefusedError: [WinError 10061] No se puede establecer una conexión ya que el equipo de destino denegó expresamente dicha conexión
+# ipp://10.0.101.200:631/ipp -> ConnectionRefusedError: [WinError 10061] No se puede establecer una conexión ya que el equipo de destino denegó expresamente dicha conexión
+# ipp://10.0.101.200:631/printer -> ConnectionRefusedError: [WinError 10061] No se puede establecer una conexión ya que el equipo de destino denegó expresamente dicha conexión
+# ipp://10.0.101.200:631/ -> ConnectionRefusedError: [WinError 10061] No se puede establecer una conexión ya que el equipo de destino denegó expresamente dicha conexión
+# ipps://10.0.101.200:443/ipp/print -> SSLError: [SSL: WRONG_SIGNATURE_TYPE] wrong signature type (_ssl.c:1082)
+# ipps://10.0.101.200:443/ipp -> SSLError: [SSL: WRONG_SIGNATURE_TYPE] wrong signature type (_ssl.c:1082)
+# ipp://10.0.101.200:80/ipp/print -> RuntimeError: HTTP 404 en ipp://10.0.101.200:80/ipp/print

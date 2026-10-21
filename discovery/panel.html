@@ -1,0 +1,259 @@
+<!doctype html>
+<html lang="es">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Monitor de impresoras</title>
+<style>
+  :root {
+    --bg: #f4f5f7; --card: #ffffff; --text: #1b1f24; --muted: #5f6b7a; --line: #e3e6ea;
+    --track: #eceff2; --soft: #f7f8fa;
+    --ok: #1f8f4e; --ok-bg: #e5f5ec;
+    --busy: #1f6fd1; --busy-bg: #e6effb;
+    --warm: #a86b00; --warm-bg: #fdf3dc;
+    --err: #c62f2f; --err-bg: #fbe9e9;
+    --off: #6b7380; --off-bg: #eceef1;
+    --negro: #2b2f36; --cian: #12a3c9; --magenta: #c8318a; --amarillo: #e3b500; --otro: #8a93a0;
+    --radius: 14px;
+  }
+  @media (prefers-color-scheme: dark) {
+    :root:not([data-theme="light"]) {
+      --bg: #111418; --card: #1a1e24; --text: #e7eaee; --muted: #9aa5b3; --line: #2b313a;
+      --track: #262c34; --soft: #20252c;
+      --ok: #4cc27f; --ok-bg: #173325; --busy: #6aa7ff; --busy-bg: #172a45;
+      --warm: #f0b545; --warm-bg: #3a2d12; --err: #ff6b6b; --err-bg: #431d1d;
+      --off: #9aa3ae; --off-bg: #262b32; --negro: #c9ced6;
+    }
+  }
+  * { box-sizing: border-box; }
+  body { margin: 0; background: var(--bg); color: var(--text);
+         font: 14px/1.45 system-ui, -apple-system, "Segoe UI", Roboto, sans-serif; }
+  .wrap { max-width: 1320px; margin: 0 auto; padding: 20px 16px 40px; }
+  header.top { display: flex; flex-wrap: wrap; gap: 12px 20px; align-items: center; justify-content: space-between; margin-bottom: 16px; }
+  h1 { font-size: 20px; margin: 0; }
+  .sub { color: var(--muted); font-size: 12.5px; }
+  .controles { display: flex; flex-wrap: wrap; gap: 14px; align-items: center; }
+  .controles label { display: flex; gap: 6px; align-items: center; cursor: pointer; color: var(--muted); }
+  .resumen { display: flex; flex-wrap: wrap; gap: 8px; margin-bottom: 16px; }
+  .grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(340px, 1fr)); gap: 16px; align-items: start; }
+  .card { background: var(--card); border: 1px solid var(--line); border-radius: var(--radius); padding: 16px; border-top: 4px solid var(--off); }
+  .card.disponible { border-top-color: var(--ok); } .card.ocupada { border-top-color: var(--busy); }
+  .card.calentando { border-top-color: var(--warm); } .card.error { border-top-color: var(--err); }
+  .card-head { display: flex; justify-content: space-between; gap: 10px; align-items: flex-start; }
+  .card h2 { margin: 0; font-size: 18px; }
+  .chip { display: inline-flex; align-items: center; gap: 6px; padding: 3px 10px; border-radius: 999px; font-weight: 600; font-size: 12.5px; white-space: nowrap; }
+  .chip::before { content: ""; width: 8px; height: 8px; border-radius: 50%; background: currentColor; }
+  .chip.disponible { color: var(--ok); background: var(--ok-bg); }
+  .chip.ocupada { color: var(--busy); background: var(--busy-bg); }
+  .chip.calentando { color: var(--warm); background: var(--warm-bg); }
+  .chip.error { color: var(--err); background: var(--err-bg); }
+  .chip.fuera_de_linea { color: var(--off); background: var(--off-bg); }
+  .atasco { margin: 12px 0 0; padding: 10px 12px; border-radius: 10px; background: var(--err); color: #fff; font-weight: 700; letter-spacing: .02em; }
+  .motivos { margin: 10px 0 0; padding: 8px 12px; border-radius: 10px; background: var(--err-bg); color: var(--err); font-weight: 600; }
+  .avisos { display: flex; flex-wrap: wrap; gap: 6px; margin-top: 10px; }
+  .aviso { font-size: 12px; padding: 2px 8px; border-radius: 6px; background: var(--warm-bg); color: var(--warm); }
+  h3 { font-size: 12px; text-transform: uppercase; letter-spacing: .06em; color: var(--muted); margin: 18px 0 8px; font-weight: 600; }
+  .tray { padding: 8px 0; border-bottom: 1px solid var(--line); }
+  .tray:last-child { border-bottom: 0; }
+  .tray-top { display: flex; align-items: center; gap: 8px; }
+  .tray-name { font-weight: 600; }
+  .tag { font-size: 11px; padding: 1px 6px; border-radius: 5px; background: var(--soft); border: 1px solid var(--line); color: var(--muted); }
+  .tray-val { margin-left: auto; font-variant-numeric: tabular-nums; font-weight: 600; }
+  .tray-val.vacia, .tray-val.bajo { color: var(--err); } .tray-val.abierta { color: var(--warm); }
+  .bar { height: 10px; border-radius: 999px; background: var(--track); overflow: hidden; margin-top: 6px; }
+  .fill { height: 100%; border-radius: 999px; background: var(--ok); transition: width .4s; }
+  .fill.medio { background: var(--warm); } .fill.bajo { background: var(--err); }
+  .tray-sub { color: var(--muted); font-size: 12px; margin-top: 4px; }
+  .tray.off { opacity: .6; }
+  .switch { position: relative; width: 34px; height: 20px; flex: none; }
+  .switch input { opacity: 0; width: 0; height: 0; }
+  .switch span { position: absolute; inset: 0; border-radius: 999px; background: var(--track); border: 1px solid var(--line); cursor: pointer; transition: .2s; }
+  .switch span::after { content: ""; position: absolute; width: 14px; height: 14px; left: 2px; top: 2px; border-radius: 50%; background: var(--muted); transition: .2s; }
+  .switch input:checked + span { background: var(--ok); border-color: var(--ok); }
+  .switch input:checked + span::after { transform: translateX(14px); background: #fff; }
+  .sup { display: grid; grid-template-columns: 1fr auto; gap: 2px 10px; align-items: center; margin: 6px 0; font-size: 13px; }
+  .sup .bar { grid-column: 1 / -1; height: 6px; margin-top: 2px; }
+  .sup .fill.negro { background: var(--negro); } .sup .fill.cian { background: var(--cian); }
+  .sup .fill.magenta { background: var(--magenta); } .sup .fill.amarillo { background: var(--amarillo); }
+  .sup .fill.otro { background: var(--otro); }
+  .dos { display: grid; grid-template-columns: 1fr 1fr; gap: 12px; }
+  @media (max-width: 420px) { .dos { grid-template-columns: 1fr; } }
+  ul.simple { list-style: none; padding: 0; margin: 0; font-size: 13px; }
+  ul.simple li { padding: 2px 0; }
+  .abierta-txt { color: var(--warm); font-weight: 600; }
+  .pantalla { font-family: ui-monospace, Consolas, monospace; font-size: 12.5px; background: var(--soft); border: 1px solid var(--line); border-radius: 8px; padding: 8px 10px; min-height: 36px; }
+  details { margin-top: 14px; border-top: 1px solid var(--line); padding-top: 10px; }
+  summary { cursor: pointer; color: var(--muted); font-weight: 600; font-size: 13px; }
+  table { width: 100%; border-collapse: collapse; font-size: 12.5px; margin-top: 8px; }
+  th, td { text-align: left; padding: 4px 6px; border-bottom: 1px solid var(--line); vertical-align: top; }
+  th { color: var(--muted); font-weight: 600; }
+  td.mono, .mono { font-family: ui-monospace, Consolas, monospace; }
+  .pie { margin-top: 12px; color: var(--muted); font-size: 12px; display: flex; justify-content: space-between; gap: 8px; flex-wrap: wrap; }
+  .eventos { margin-top: 20px; background: var(--card); border: 1px solid var(--line); border-radius: var(--radius); padding: 16px; }
+  .eventos h2 { font-size: 16px; margin: 0 0 8px; }
+  .ev { display: grid; grid-template-columns: 70px 120px 1fr; gap: 10px; padding: 5px 0; border-bottom: 1px solid var(--line); font-size: 13px; }
+  .ev:last-child { border-bottom: 0; }
+  .ev .h { color: var(--muted); font-variant-numeric: tabular-nums; }
+  @media (max-width: 560px) { .ev { grid-template-columns: 60px 1fr; } .ev .t { grid-column: 1 / -1; } }
+  .nota { color: var(--muted); font-size: 12px; margin-top: 14px; }
+  .vacio { color: var(--muted); font-style: italic; font-size: 13px; }
+</style>
+</head>
+<body>
+<div class="wrap">
+  <header class="top">
+    <div>
+      <h1>Monitor de impresoras</h1>
+      <div class="sub" id="sub">Conectando…</div>
+    </div>
+    <div class="controles">
+      <label><input type="checkbox" id="verOff"> Mostrar bandejas desactivadas</label>
+      <label><input type="checkbox" id="verTec"> Detalles técnicos</label>
+    </div>
+  </header>
+  <div class="resumen" id="resumen"></div>
+  <div class="grid" id="grid"></div>
+  <section class="eventos">
+    <h2>Eventos recientes</h2>
+    <div id="eventos"><div class="vacio">Sin cambios desde que se abrió el panel.</div></div>
+  </section>
+  <p class="nota">Los niveles de papel son aproximados: las impresoras miden el papel por pasos, no hoja por hoja.
+    Una bandeja abierta reporta 0 mientras está fuera; el panel la muestra como «Bandeja abierta», no como vacía.</p>
+</div>
+<script>
+const $ = (id) => document.getElementById(id);
+const esc = (v) => String(v ?? "").replace(/[&<>"']/g, (c) => ({ "&": "&amp;", "<": "&lt;", ">": "&gt;", '"': "&quot;", "'": "&#39;" }[c]));
+const pref = (k, def) => { try { const v = localStorage.getItem(k); return v === null ? def : v === "1"; } catch { return def; } };
+const guardarPref = (k, v) => { try { localStorage.setItem(k, v ? "1" : "0"); } catch {} };
+
+let umbral = 20;
+const abiertos = new Set();   // <details> abiertos, para conservarlos entre refrescos
+
+$("verOff").checked = pref("verOff", false);
+$("verTec").checked = pref("verTec", false);
+$("verOff").onchange = (e) => { guardarPref("verOff", e.target.checked); refrescar(); };
+$("verTec").onchange = (e) => { guardarPref("verTec", e.target.checked); refrescar(); };
+
+function claseNivel(b) {
+  if (b.abierta) return "abierta";
+  if (b.pct === 0) return "vacia";
+  if (b.pct !== null && b.pct < umbral) return "bajo";
+  return "";
+}
+
+function bandeja(p, b) {
+  const pct = b.pct ?? (b.etiqueta === "Con papel" ? 100 : 0);
+  const fill = b.pct === null ? "" : b.pct < umbral ? "bajo" : b.pct < 50 ? "medio" : "";
+  const valor = b.pct !== null && b.pct > 0 ? `${esc(b.etiqueta)} · ${b.pct} %` : esc(b.etiqueta);
+  return `<div class="tray ${b.enUso ? "" : "off"}">
+    <div class="tray-top">
+      <span class="tray-name">${esc(b.nombre)}</span>
+      ${b.papel ? `<span class="tag">${esc(b.papel)}</span>` : ""}
+      ${b.bypass ? `<span class="tag">bypass</span>` : ""}
+      <span class="tray-val ${claseNivel(b)}">${valor}</span>
+      <label class="switch" title="${b.enUso ? "Desactivar" : "Activar"} esta bandeja">
+        <input type="checkbox" ${b.enUso ? "checked" : ""} data-imp="${esc(p.id)}" data-tray="${esc(b.indice)}"><span></span>
+      </label>
+    </div>
+    <div class="bar"><div class="fill ${fill}" style="width:${b.abierta ? 0 : pct}%"></div></div>
+    <div class="tray-sub">Capacidad ${b.max > 0 ? esc(b.max) + " hojas" : "desconocida"} · nivel SNMP ${esc(b.nivel)}${
+      $("verTec").checked ? ` · índice ${esc(b.indice)} · ${esc(b.estadoSnmp)} · ${esc(b.tipo)}` : ""}</div>
+  </div>`;
+}
+
+function consumible(c) {
+  const ancho = c.pct ?? (c.nivel === -3 ? 100 : 0);
+  return `<div class="sup"><span>${esc(c.descripcion)}${c.residuo ? " (residual)" : ""}</span>
+    <strong class="mono">${esc(c.etiqueta)}</strong>
+    <div class="bar"><div class="fill ${esc(c.color)}" style="width:${ancho}%"></div></div></div>`;
+}
+
+function detalles(clave, resumen, cuerpo) {
+  return `<details data-key="${clave}" ${abiertos.has(clave) ? "open" : ""}><summary>${resumen}</summary>${cuerpo}</details>`;
+}
+
+function tarjeta(p) {
+  if (!p.online) {
+    return `<article class="card fuera_de_linea">
+      <div class="card-head"><div><h2>${esc(p.nombre)}</h2><div class="sub">${esc(p.modelo || "")} · ${esc(p.ip)}</div></div>
+      <span class="chip fuera_de_linea">Fuera de línea</span></div>
+      <div class="motivos" style="background:var(--off-bg);color:var(--off)">Sin respuesta SNMP: ${esc(p.error)}</div>
+      <div class="pie"><span>Último intento ${esc(p.actualizado)}</span></div></article>`;
+  }
+  const enUso = p.bandejas.filter((b) => b.enUso);
+  const off = p.bandejas.filter((b) => !b.enUso);
+  const verOff = $("verOff").checked, verTec = $("verTec").checked;
+  const toner = p.consumibles.filter((c) => !c.residuo || verTec);
+
+  let html = `<article class="card ${p.estado}">
+    <div class="card-head">
+      <div><h2>${esc(p.nombre)}</h2><div class="sub">${esc(p.modelo)} · ${esc(p.ip)} · SNMP v${esc(p.snmpVersion)}</div></div>
+      <span class="chip ${p.estado}">${esc(p.estadoTxt)}</span>
+    </div>
+    ${p.atasco ? `<div class="atasco">⚠ PAPEL ATASCADO — revisa la impresora</div>` : ""}
+    ${p.motivos.length ? `<div class="motivos">${p.motivos.map(esc).join(" · ")}</div>` : ""}
+    ${p.avisos.length ? `<div class="avisos">${p.avisos.map((a) => `<span class="aviso">${esc(a)}</span>`).join("")}</div>` : ""}
+    <h3>Bandejas en uso</h3>
+    ${enUso.length ? enUso.map((b) => bandeja(p, b)).join("") : `<div class="vacio">Ninguna bandeja activada.</div>`}
+    ${verOff && off.length ? `<h3>Desactivadas (${off.length})</h3>${off.map((b) => bandeja(p, b)).join("")}` : ""}
+    ${toner.length ? `<h3>Tóner</h3>${toner.map(consumible).join("")}` : ""}
+    <div class="dos">
+      <div><h3>Tapas</h3><ul class="simple">${p.cubiertas.map((c) =>
+        `<li>${esc(c.descripcion)}: ${c.estado === "doorOpen" ? `<span class="abierta-txt">abierta</span>` : c.estado === "doorClosed" ? "cerrada" : esc(c.estado)}</li>`).join("") || "<li>—</li>"}</ul></div>
+      <div><h3>Pantalla</h3><div class="pantalla">${p.pantalla.length ? p.pantalla.map(esc).join("<br>") : `<span class="vacio">No la reporta</span>`}</div></div>
+    </div>`;
+
+  if (verTec) {
+    html += detalles(`${p.id}-tec`, `Alertas (${p.alertas.length}) y valores SNMP`,
+      `<table><tr><th>Severidad</th><th>Grupo</th><th>Código</th><th>Descripción</th></tr>${
+        p.alertas.map((a) => `<tr><td>${esc(a.severidad)}</td><td>${esc(a.grupo)} #${esc(a.grupo_indice)}</td>
+          <td class="mono">${esc(a.codigo_txt)} (${esc(a.codigo)})</td><td>${esc(a.descripcion)}</td></tr>`).join("")}</table>
+       <table>
+        <tr><th>hrPrinterStatus</th><td class="mono">${esc(p.hrPrinterStatus)}</td></tr>
+        <tr><th>hrDeviceStatus</th><td class="mono">${Object.entries(p.hrDeviceStatus).map(([i, v]) => `${esc(i)}: ${esc(v)}`).join("<br>")}</td></tr>
+        <tr><th>ErrorState</th><td class="mono">0x${esc(p.erroresHex)} [${p.erroresBits.map(esc).join(", ") || "—"}]</td></tr>
+        <tr><th>sysName</th><td class="mono">${esc(p.sysName)}</td></tr>
+       </table>`);
+  }
+  html += `<div class="pie"><span>Actualizado ${esc(p.actualizado)}</span><span>lectura ${esc(p.msLectura)} ms</span></div></article>`;
+  return html;
+}
+
+async function cambiarBandeja(input) {
+  input.disabled = true;
+  try {
+    await fetch("/api/bandejas", { method: "POST", headers: { "Content-Type": "application/json" },
+      body: JSON.stringify({ impresora: input.dataset.imp, bandeja: input.dataset.tray, enUso: input.checked }) });
+  } finally { setTimeout(refrescar, 300); }
+}
+
+async function refrescar() {
+  let datos;
+  try {
+    const r = await fetch("/api/estado", { cache: "no-store" });
+    datos = await r.json();
+  } catch (e) {
+    $("sub").textContent = "Sin conexión con el servidor local (¿está corriendo panel.py?)";
+    return;
+  }
+  umbral = datos.umbral;
+  document.querySelectorAll("details[data-key]").forEach((d) => d.open ? abiertos.add(d.dataset.key) : abiertos.delete(d.dataset.key));
+  $("grid").innerHTML = datos.impresoras.map(tarjeta).join("") || `<div class="vacio">Esperando la primera lectura…</div>`;
+  $("grid").querySelectorAll("input[data-tray]").forEach((i) => (i.onchange = () => cambiarBandeja(i)));
+
+  const cuenta = {};
+  datos.impresoras.forEach((p) => (cuenta[p.estado] = (cuenta[p.estado] || 0) + 1));
+  const nombres = { disponible: "Disponibles", ocupada: "Ocupadas", calentando: "Calentando", error: "Con error", fuera_de_linea: "Fuera de línea" };
+  $("resumen").innerHTML = Object.keys(nombres).filter((k) => cuenta[k])
+    .map((k) => `<span class="chip ${k}">${cuenta[k]} ${nombres[k]}</span>`).join("");
+  $("sub").textContent = `${datos.impresoras.length} impresoras · se actualiza cada ${datos.intervalo} s · umbral de papel bajo ${umbral} %`;
+  $("eventos").innerHTML = datos.eventos.length
+    ? datos.eventos.map((e) => `<div class="ev"><span class="h">${esc(e.hora)}</span><strong>${esc(e.impresora)}</strong><span class="t">${esc(e.texto)}</span></div>`).join("")
+    : `<div class="vacio">Sin cambios desde que se abrió el panel.</div>`;
+}
+
+refrescar();
+setInterval(refrescar, 3000);
+</script>
+</body>
+</html>

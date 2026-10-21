@@ -1,0 +1,166 @@
+{
+  "id": "canon",
+  "marca": "canon",
+  "ip": "10.0.101.200",
+  "snmp_version": "1",
+  "sysDescr": "Canon iR-ADV C7570 /P",
+  "sysName": "iR-ADV C7570",
+  "sysObjectID": "1.3.6.1.4.1.1602.4.7",
+  "hrDeviceDescr": [
+    "Canon iR-ADV C7570 56.32",
+    "Flash Memory",
+    "HDD",
+    "Color Image Reader",
+    "Document Feeder"
+  ],
+  "hrDeviceStatus": {
+    "1": "warning",
+    "2": "running",
+    "3": "running",
+    "101": "running",
+    "102": "running"
+  },
+  "hrPrinterStatus": [
+    "idle"
+  ],
+  "errorState": [
+    {
+      "hex": "a000",
+      "bits": [
+        "lowPaper",
+        "lowToner"
+      ]
+    }
+  ],
+  "cubiertas": [
+    {
+      "indice": "1.1",
+      "descripcion": "Printer Cover",
+      "estado": "doorClosed"
+    }
+  ],
+  "bandejas": [
+    {
+      "indice": "1.1",
+      "nombre": "Stack Bypass",
+      "descripcion": "",
+      "tipo": "sheetFeedManual",
+      "bypass": true,
+      "unidad": 8,
+      "max": 250,
+      "nivel": 0,
+      "estado": 8,
+      "estado_txt": "disponible-inactiva+alerta-no-critica",
+      "medio": ""
+    },
+    {
+      "indice": "1.2",
+      "nombre": "Drawer 1",
+      "descripcion": "",
+      "tipo": "sheetFeedAutoNonRemovableTray",
+      "bypass": false,
+      "unidad": 8,
+      "max": 1100,
+      "nivel": 110,
+      "estado": 0,
+      "estado_txt": "disponible-inactiva",
+      "medio": ""
+    },
+    {
+      "indice": "1.3",
+      "nombre": "Drawer 2",
+      "descripcion": "",
+      "tipo": "sheetFeedAutoNonRemovableTray",
+      "bypass": false,
+      "unidad": 8,
+      "max": 1100,
+      "nivel": 0,
+      "estado": 8,
+      "estado_txt": "disponible-inactiva+alerta-no-critica",
+      "medio": ""
+    },
+    {
+      "indice": "1.4",
+      "nombre": "Drawer 3",
+      "descripcion": "",
+      "tipo": "sheetFeedAutoRemovableTray",
+      "bypass": false,
+      "unidad": 8,
+      "max": 550,
+      "nivel": 55,
+      "estado": 0,
+      "estado_txt": "disponible-inactiva",
+      "medio": ""
+    },
+    {
+      "indice": "1.5",
+      "nombre": "Drawer 4",
+      "descripcion": "",
+      "tipo": "sheetFeedAutoRemovableTray",
+      "bypass": false,
+      "unidad": 8,
+      "max": 550,
+      "nivel": 55,
+      "estado": 0,
+      "estado_txt": "disponible-inactiva",
+      "medio": ""
+    }
+  ],
+  "alertas": [
+    {
+      "indice": "1.1",
+      "severidad": "warning",
+      "grupo": "markerSupplies",
+      "grupo_indice": 1,
+      "ubicacion": 1,
+      "codigo": 1104,
+      "codigo_txt": "markerTonerAlmostEmpty",
+      "descripcion": "toner is low (black)."
+    },
+    {
+      "indice": "1.2",
+      "severidad": "warning",
+      "grupo": "markerSupplies",
+      "grupo_indice": 2,
+      "ubicacion": 1,
+      "codigo": 1104,
+      "codigo_txt": "markerTonerAlmostEmpty",
+      "descripcion": "toner is low (cyan)."
+    },
+    {
+      "indice": "1.3",
+      "severidad": "warning",
+      "grupo": "markerSupplies",
+      "grupo_indice": 3,
+      "ubicacion": 1,
+      "codigo": 1104,
+      "codigo_txt": "markerTonerAlmostEmpty",
+      "descripcion": "toner is low (magenta)."
+    },
+    {
+      "indice": "1.4",
+      "severidad": "warning",
+      "grupo": "markerSupplies",
+      "grupo_indice": 4,
+      "ubicacion": 1,
+      "codigo": 1104,
+      "codigo_txt": "markerTonerAlmostEmpty",
+      "descripcion": "toner is low (yellow)."
+    },
+    {
+      "indice": "1.5",
+      "severidad": "warning",
+      "grupo": "input",
+      "grupo_indice": 3,
+      "ubicacion": 1,
+      "codigo": 808,
+      "codigo_txt": "inputMediaSupplyEmpty",
+      "descripcion": "paper is out (a4)."
+    }
+  ],
+  "panel": [
+    "toner is low (yellow)."
+  ],
+  "filas_printer_mib": 567,
+  "ipp": null
+}

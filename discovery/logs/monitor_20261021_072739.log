@@ -1,0 +1,80 @@
+07:27:39 Monitor iniciado: ['canon', 'ricoh', 'konica'] cada 3 s
+07:27:39 [CANON] lectura completa (0.1s):
+07:27:39 [CANON]    hrPrinterStatus.1 = 3 idle
+07:27:39 [CANON]    errores.1 = a000 [lowPaper,lowToner]
+07:27:39 [CANON]    hrDeviceStatus.1 = 3 warning
+07:27:39 [CANON]    hrDeviceStatus.2 = 2 running
+07:27:39 [CANON]    hrDeviceStatus.3 = 2 running
+07:27:39 [CANON]    hrDeviceStatus.101 = 2 running
+07:27:39 [CANON]    hrDeviceStatus.102 = 2 running
+07:27:39 [CANON]    cubierta.1.1 Printer Cover = doorClosed
+07:27:39 [CANON]    bandeja.1.1 Stack Bypass = 0/250 (0 %) disponible-inactiva+alerta-no-critica
+07:27:39 [CANON]    bandeja.1.2 Drawer 1 = 110/1100 (10 %) disponible-inactiva
+07:27:39 [CANON]    bandeja.1.3 Drawer 2 = 0/1100 (0 %) disponible-inactiva+alerta-no-critica
+07:27:39 [CANON]    bandeja.1.4 Drawer 3 = 55/550 (10 %) disponible-inactiva
+07:27:39 [CANON]    bandeja.1.5 Drawer 4 = 55/550 (10 %) disponible-inactiva
+07:27:39 [CANON]    alertas = inputMediaSupplyEmpty(808) input#3: paper is out (a4). | markerTonerAlmostEmpty(1104) markerSupplies#1: toner is low (black). | markerTonerAlmostEmpty(1104) markerSupplies#2: toner is low (cyan). | markerTonerAlmostEmpty(1104) markerSupplies#3: toner is low (magenta). | markerTonerAlmostEmpty(1104) markerSupplies#4: toner is low (yellow).
+07:27:39 [CANON]    panel = toner is low (yellow).
+07:27:39 [RICOH] lectura completa (0.1s):
+07:27:39 [RICOH]    hrPrinterStatus.1 = 3 idle
+07:27:39 [RICOH]    errores.1 = 00 [-]
+07:27:39 [RICOH]    hrDeviceStatus.1 = 3 warning
+07:27:39 [RICOH]    hrDeviceStatus.2 = 2 running
+07:27:39 [RICOH]    hrDeviceStatus.3 = 3 warning
+07:27:39 [RICOH]    hrDeviceStatus.5 = 2 running
+07:27:39 [RICOH]    cubierta.1.1 Tapa frontal = doorClosed
+07:27:39 [RICOH]    cubierta.1.2 Tapa ADF = doorClosed
+07:27:39 [RICOH]    bandeja.1.1 Tray 1 = 465/3100 (15 %) disponible-inactiva
+07:27:39 [RICOH]    bandeja.1.2 Tray 2 = 0/550 (0 %) disponible-en-espera+alerta-no-critica
+07:27:39 [RICOH]    bandeja.1.3 Tray 3 = 165/550 (30 %) disponible-inactiva
+07:27:39 [RICOH]    bandeja.1.4 Bypass Tray = 0/100 (0 %) disponible-en-espera+alerta-no-critica
+07:27:39 [RICOH]    alertas = inputMediaSupplyEmpty(808) input#2: No hay papel: Bandeja 2 {13300}
+07:27:39 [RICOH]    panel = No hay papel: Bandeja 2
+07:27:39 [KONICA] lectura completa (0.4s):
+07:27:39 [KONICA]    hrPrinterStatus.1 = 3 idle
+07:27:39 [KONICA]    errores.1 = 0100 [serviceRequested]
+07:27:39 [KONICA]    hrDeviceStatus.1 = 3 warning
+07:27:39 [KONICA]    hrDeviceStatus.2 = 2 running
+07:27:39 [KONICA]    hrDeviceStatus.3 = 2 running
+07:27:39 [KONICA]    hrDeviceStatus.4 = 2 running
+07:27:39 [KONICA]    hrDeviceStatus.5 = 2 running
+07:27:39 [KONICA]    cubierta.1.1 front door = doorClosed
+07:27:39 [KONICA]    cubierta.1.2 right door = doorClosed
+07:27:39 [KONICA]    bandeja.1.1 (índice 1.1) = 0/500 (0 %) disponible-inactiva+alerta-no-critica
+07:27:39 [KONICA]    bandeja.1.2 (índice 1.2) = 500/500 (100 %) disponible-inactiva+alerta-no-critica
+07:27:39 [KONICA]    bandeja.1.3 (índice 1.3) = 0/1000 (0 %) disponible-inactiva+alerta-no-critica
+07:27:39 [KONICA]    bandeja.1.5 (índice 1.5) = 0/150 (0 %) disponible-inactiva+alerta-no-critica
+07:27:39 [KONICA]    alertas = inputMediaSupplyEmpty(808) input#1: No Paper Tray1 | inputMediaSupplyEmpty(808) input#3: No Paper Tray3
+07:27:39 [KONICA]    panel = -
+07:27:54 [CANON] CAMBIO hrPrinterStatus.1: 3 idle  ->  4 printing
+07:28:09 [CANON] CAMBIO hrPrinterStatus.1: 4 printing  ->  3 idle
+07:29:42 [RICOH] CAMBIO hrPrinterStatus.1: 3 idle  ->  4 printing
+07:29:54 [RICOH] CAMBIO hrPrinterStatus.1: 4 printing  ->  3 idle
+07:31:57 [KONICA] CAMBIO alertas: inputMediaSupplyEmpty(808) input#1: No Paper Tray1 | inputMediaSupplyEmpty(808) input#3: No Paper Tray3  ->  inputMediaSupplyEmpty(808) input#1: No Paper Tray1 | inputMediaSupplyEmpty(808) input#3: No Paper Tray3 | other(1) other#-1: Operation Error
+07:31:57 [KONICA] CAMBIO bandeja.1.1 (índice 1.1): 0/500 (0 %) disponible-inactiva+alerta-no-critica  ->  0/500 (0 %) disponible-ocupada+alerta-critica
+07:31:57 [KONICA] CAMBIO bandeja.1.2 (índice 1.2): 500/500 (100 %) disponible-inactiva+alerta-no-critica  ->  500/500 (100 %) disponible-ocupada+alerta-critica
+07:31:57 [KONICA] CAMBIO bandeja.1.3 (índice 1.3): 0/1000 (0 %) disponible-inactiva+alerta-no-critica  ->  0/1000 (0 %) disponible-ocupada+alerta-critica
+07:31:57 [KONICA] CAMBIO bandeja.1.5 (índice 1.5): 0/150 (0 %) disponible-inactiva+alerta-no-critica  ->  0/150 (0 %) disponible-ocupada+alerta-critica
+07:31:57 [KONICA] CAMBIO hrDeviceStatus.1: 3 warning  ->  5 down
+07:31:57 [KONICA] CAMBIO hrPrinterStatus.1: 3 idle  ->  1 other
+07:32:09 [KONICA] CAMBIO alertas: inputMediaSupplyEmpty(808) input#1: No Paper Tray1 | inputMediaSupplyEmpty(808) input#3: No Paper Tray3 | other(1) other#-1: Operation Error  ->  inputMediaSupplyEmpty(808) input#1: No Paper Tray1 | inputMediaSupplyEmpty(808) input#3: No Paper Tray3
+07:32:09 [KONICA] CAMBIO bandeja.1.1 (índice 1.1): 0/500 (0 %) disponible-ocupada+alerta-critica  ->  0/500 (0 %) disponible-inactiva+alerta-no-critica
+07:32:09 [KONICA] CAMBIO bandeja.1.2 (índice 1.2): 500/500 (100 %) disponible-ocupada+alerta-critica  ->  500/500 (100 %) disponible-inactiva+alerta-no-critica
+07:32:09 [KONICA] CAMBIO bandeja.1.3 (índice 1.3): 0/1000 (0 %) disponible-ocupada+alerta-critica  ->  0/1000 (0 %) disponible-inactiva+alerta-no-critica
+07:32:09 [KONICA] CAMBIO bandeja.1.5 (índice 1.5): 0/150 (0 %) disponible-ocupada+alerta-critica  ->  0/150 (0 %) disponible-inactiva+alerta-no-critica
+07:32:09 [KONICA] CAMBIO hrDeviceStatus.1: 5 down  ->  3 warning
+07:32:09 [KONICA] CAMBIO hrPrinterStatus.1: 1 other  ->  4 printing
+07:32:12 [KONICA] CAMBIO hrPrinterStatus.1: 4 printing  ->  3 idle
+07:34:09 [KONICA] CAMBIO hrPrinterStatus.1: 3 idle  ->  4 printing
+07:34:12 [KONICA] CAMBIO hrPrinterStatus.1: 4 printing  ->  3 idle
+07:34:54 [RICOH] CAMBIO hrPrinterStatus.1: 3 idle  ->  4 printing
+07:35:06 [RICOH] CAMBIO alertas: inputMediaSupplyEmpty(808) input#2: No hay papel: Bandeja 2 {13300}  ->  inputMediaSupplyEmpty(808) input#2: No hay papel: Bandeja 2 {13300} | other(1) generalPrinter#1: Calentando... {10003}
+07:35:06 [RICOH] CAMBIO hrPrinterStatus.1: 4 printing  ->  5 warmup
+07:35:09 [RICOH] CAMBIO alertas: inputMediaSupplyEmpty(808) input#2: No hay papel: Bandeja 2 {13300} | other(1) generalPrinter#1: Calentando... {10003}  ->  inputMediaSupplyEmpty(808) input#2: No hay papel: Bandeja 2 {13300}
+07:35:09 [RICOH] CAMBIO hrPrinterStatus.1: 5 warmup  ->  3 idle
+07:35:18 [CANON] CAMBIO hrPrinterStatus.1: 3 idle  ->  4 printing
+07:35:42 [CANON] CAMBIO hrPrinterStatus.1: 4 printing  ->  3 idle
+07:36:06 [CANON] CAMBIO hrPrinterStatus.1: 3 idle  ->  4 printing
+07:36:18 [CANON] CAMBIO hrPrinterStatus.1: 4 printing  ->  3 idle
+07:36:27 [CANON] CAMBIO hrPrinterStatus.1: 3 idle  ->  4 printing
+07:36:36 [CANON] CAMBIO hrPrinterStatus.1: 4 printing  ->  3 idle

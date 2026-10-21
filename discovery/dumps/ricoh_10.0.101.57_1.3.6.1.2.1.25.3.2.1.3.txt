@@ -1,0 +1,5 @@
+# walk 1.3.6.1.2.1.25.3.2.1.3  v2c  4 filas  0.0s
+1.3.6.1.2.1.25.3.2.1.3.1 = STRING: "RICOH Aficio MP 7502"
+1.3.6.1.2.1.25.3.2.1.3.2 = STRING: "RICOH Aficio MP 7502"
+1.3.6.1.2.1.25.3.2.1.3.3 = STRING: "RICOH Aficio MP 7502"
+1.3.6.1.2.1.25.3.2.1.3.5 = STRING: "RICOH Aficio MP 7502"
