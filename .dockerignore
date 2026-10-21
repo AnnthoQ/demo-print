@@ -1,0 +1,8 @@
+.env
+.git
+.claude
+discovery/
+extension/
+herramientas/
+**/__pycache__
+server/pruebas/

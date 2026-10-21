@@ -1,0 +1,18 @@
+# Configuración real (IPs, comunidades, tokens): nunca al repositorio
+.env
+discovery/printers.local.json
+config/printers.json
+
+# Volcados y registros crudos con IPs reales (se sanitizan antes de usarlos como fixtures)
+discovery/dumps/
+discovery/logs/
+
+node_modules/
+dist/
+__pycache__/
+
+# Escrituras temporales de la configuración
+config/*.tmp
+
+# Registros del servicio
+logs/
